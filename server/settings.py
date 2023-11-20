@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gf0v%#$gae8&at-#%!eq0=13qeh_+pz$u%pe-)#fd$(2uj7#9z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['flashcard-webapp.azurewebsites.net']
 
 
 # Application definition
