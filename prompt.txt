@@ -1,0 +1,6 @@
+[{":"Question": When did the second world war begin, 
+"Options": ["1914", "1944", "1945", "1939"], 
+"Answer": "1939"},
+ {"Question": ""Who was the leader of Nazi Germany?",
+ "Options": ["Jospeh Stalin", "Joseph Goebbels", "Heinrich Himmler", "Adolf Hitler"], 
+ "Answer": "Adolf Hitler"}]
