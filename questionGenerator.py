@@ -13,8 +13,8 @@ def get_prompts(file="prompt.txt"):
 def generate_questions(user_prompt):
     prompts = get_prompts()
     messages =[{"role": "system","content": prompts[0]},
-    {"role": "user","content": "ww1 2 questions"},
-    {"role":"assistant", "content":prompts[1]},
+    {"role": "user","content": prompts[1]},
+    {"role":"assistant", "content":prompts[2]},
     {"role": "user","content": f"{user_prompt}"},]
     return client.chat.completions.create(
         model=model[3],
