@@ -8,8 +8,7 @@ def generate_questions(user_prompt):
     messages =[{"role": "system","content": """Your response must be a list of dictionary key-value pairing related to the users input. The length of the list of dictionaries is determined by the user. The correct answer is the dictonary key's value.
     If no input is given, then default is 3 questions."""},
     {"role": "user","content": "ww1 2 questions"},
-    {"role":"assistant", "content":"""[{["When did the first world war begin?", "1914", "1915", "1918", "1917"]: "1914"}, 
-{"Who was the leader of Germany during World War 1?", "Kaiser Wilhelm II", "Otto von Bismarck", "Adolf Hitler", "Helmuth von Moltke"]: "Kaiser Wilhelm II"}"""},
+    {"role":"assistant", "content":"""[{":"Question": When did the second world war begin, "Options": ["1914", "1944", "1945", "1939"], "Answer": "1939"}, {"Question": ""Who was the leader of Nazi Germany?","Options": ["Jospeh Stalin", "Joseph Goebbels", "Heinrich Himmler", "Adolf Hitler"], "Answer": "Adolf Hitler"}]"""},
     {"role": "user","content": f"{user_prompt}"},]
     return client.chat.completions.create(
         model=model[3],
