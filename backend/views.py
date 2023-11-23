@@ -3,11 +3,13 @@ from utils import client, dbname, collection_name #for azure cosmos db
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 import json
-from bson import ObjectId
+from bson import ObjectId, json_util
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 #Create a new note in our collection
-@require_http_methods(["POST"])
+@csrf_exempt
+@require_http_methods(["POST"]) 
 def create_new_note(request):
     try:
         # Parse request body to get note data
@@ -24,20 +26,35 @@ def create_new_note(request):
         # Handle exceptions
         return HttpResponse(status=500)
 
-# Get all notes
+
+
+@csrf_exempt
 def get_all_notes(request):
     try:
-        notes = list(collection_name.find())
-        return JsonResponse(notes, safe=False)
+        # Fetch all notes
+        notes_cursor = collection_name.find()
+
+        # Convert cursor to a list of dictionaries
+        notes = list(notes_cursor)
+
+        # Use json_util.dumps to serialize the list of notes
+        notes_json = json_util.dumps(notes)
+
+        # Return as HttpResponse because JsonResponse expects a dict, not a JSON string
+        return HttpResponse(notes_json, content_type='application/json')
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
         
 
 #Get note by ID
+@csrf_exempt
 def get_note_by_id(request, note_id):
     try:
         note = collection_name.find_one({'_id': ObjectId(note_id)})
         if note:
+            # Convert ObjectId to string
+            note['_id'] = str(note['_id'])
             return JsonResponse(note)
         else:
             return JsonResponse({'error': 'Note not found'}, status=404)
@@ -45,6 +62,7 @@ def get_note_by_id(request, note_id):
         return JsonResponse({'error': str(e)}, status=500)
 
 #Update note
+@csrf_exempt
 @require_http_methods(["PUT"])
 def update_note(request, note_id):
     try:
@@ -59,6 +77,7 @@ def update_note(request, note_id):
         return JsonResponse({'error': str(e)}, status=500)
         
 #Delete note
+@csrf_exempt
 @require_http_methods(["DELETE"])
 def delete_note(request, note_id):
     try:
@@ -73,6 +92,7 @@ def delete_note(request, note_id):
 """this lets us use the same url 'notes/' but differentiate between a POST request for creating a note and 
 a GET request for getting all notes
 """
+@csrf_exempt
 def notes_handler(request):
     if request.method == 'POST':
         return create_new_note(request)
